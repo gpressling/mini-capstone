@@ -9,19 +9,19 @@ puts "[4] Show all products"
 
 input_option = gets.chomp
 if input_option == "1"
-  response = Unirest.get("http://localhost:3000/first_product")
+  response = Unirest.get("http://localhost:3000/v1/first_product")
   product = response.body
   puts JSON.pretty_generate(product)
 elsif input_option == "2"
-  response = Unirest.get("http://localhost:3000/second_product")
+  response = Unirest.get("http://localhost:3000/v1/second_product")
   product = response.body
   puts JSON.pretty_generate(product)
 elsif input_option == "3"
-  response = Unirest.get("http://localhost:3000/third_product")
+  response = Unirest.get("http://localhost:3000/v1/third_product")
   product = response.body
   puts JSON.pretty_generate(product)
 elsif input_option == "4"
-  response = Unirest.get("http://localhost:3000/all_products")
+  response = Unirest.get("http://localhost:3000/v1/all_products")
   products = response.body
   puts JSON.pretty_generate(products)
 end

@@ -1,4 +1,4 @@
-class ProductsController < ApplicationController
+class V1::ProductsController < ApplicationController
 
   def first_product
     product = Product.first
