@@ -6,6 +6,7 @@ puts "[1] See all products"
 puts "[2] see one product"
 puts "[3] Create a product"
 puts "[4] Update a product"
+puts "[5] Delete a contact"
 
 input_option = gets.chomp
 if input_option == "1"
@@ -62,5 +63,10 @@ elsif input_option == "4"
   response = Unirest.patch("http://localhost:3000/v1/products/#{product_id}", parameters: params)
   product = response.body
   puts JSON.pretty_generate(product)
-
+elsif input_option == "5"
+  print "Enter a product id: "
+  product_id = gets.chomp
+  response = Unirest.delete("http://localhost:3000/v1/products/#{product_id}")
+  body = response.body
+  puts JSON.pretty_generate(body)
 end

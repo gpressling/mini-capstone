@@ -30,44 +30,12 @@ class V1::ProductsController < ApplicationController
     products = Product.all
     render json: products.as_json
   end
-  def first_product
-    product = Product.first
-    render json: {
-      name: product.name,
-      price: product.price,
-      image_url: product.image_url,
-      description: product.name,
-      }
+
+  def destroy
+    product_id = params["id"]
+    product = Product.find_by(id: product_id)
+    product.destroy
+    render json: {message: "Product successfully destroyed!"}
   end
-  def second_product
-    product = Product.second
-    render json: {
-      name: product.name,
-      price: product.price,
-      image_url: product.image_url,
-      description: product.name,
-      }
-  end
-  def third_product
-    product = Product.third
-    render json: {
-      name: product.name,
-      price: product.price,
-      image_url: product.image_url,
-      description: product.name,
-      }
-  end
-  def all_products
-    all_products = Product.all
-    product_hashes = []
-    products.each do |product|
-      product_hashes << {
-        name: product.name,
-        price: product.price,
-        image_url: product.image_url,
-        description: product.description
-      }
-    end
-    render json: product_hashes
-  end
+
 end
