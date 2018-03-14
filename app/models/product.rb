@@ -1,4 +1,8 @@
 class Product < ApplicationRecord
+  validates :name, presence: true, uniqueness: true 
+  validates :price, presence: true
+  validates :price, presence: true 
+  validates :price, numericality: {greater_than: 0}
   def is_discounted
     price <= 2
   end
@@ -14,7 +18,7 @@ class Product < ApplicationRecord
       name: name,
       price: price,
       image_url: image_url,
-      description: directions,
+      description: description,
       created_at: created_at,
       is_discounted: is_discounted,
       tax: tax,
