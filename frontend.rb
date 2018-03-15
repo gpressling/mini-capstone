@@ -3,6 +3,7 @@ require "unirest"
 system "clear"
 puts "Welcome to Mini Capstone"
 puts "[1] See all products" 
+puts "  [1.1] Search products"
 puts "[2] see one product"
 puts "[3] Create a product"
 puts "[4] Update a product"
@@ -13,6 +14,13 @@ if input_option == "1"
   response = Unirest.get("http://localhost:3000/v1/products")
   product = response.body
   puts JSON.pretty_generate(product)
+
+elsif input_option == "1.1"
+  print "Search by name: "
+  data = gets.chomp
+  response = Unirest.get("http://localhost:3000/v1/products?input_search_terms=#{data}")
+  products = response.body
+  puts JSON.pretty_generate(products)
 
 elsif input_option == "2"
   print "Enter a product id: "

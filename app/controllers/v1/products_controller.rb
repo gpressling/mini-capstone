@@ -33,7 +33,13 @@ class V1::ProductsController < ApplicationController
   end
 
   def index
-    products = Product.all
+    products = Product.all.order(:id => :asc)
+
+    search_terms = params["input_search_terms"]
+    if search_terms
+      products = products.where("name ILIKE ?", "%#{search_terms}%")
+    end
+
     render json: products.as_json
   end
 
