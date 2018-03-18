@@ -3,6 +3,10 @@ class Product < ApplicationRecord
   validates :price, presence: true
   validates :price, presence: true 
   validates :price, numericality: {greater_than: 0}
+  validates :description, presence: true
+  def images
+    Image.where(product_id: id)
+  end
   def supplier
     Supplier.find_by(id: supplier_id)
   end
@@ -20,13 +24,13 @@ class Product < ApplicationRecord
       id: id,
       name: name,
       price: price,
-      image_url: image_url,
       description: description,
       created_at: created_at,
       is_discounted: is_discounted,
       tax: tax,
       total: total,
-      supplier: supplier.as_json
+      supplier: supplier.as_json,
+      images: images
     }
   end
 end
