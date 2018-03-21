@@ -4,6 +4,10 @@ class Product < ApplicationRecord
   validates :price, presence: true 
   validates :price, numericality: {greater_than: 0}
   validates :description, presence: true
+
+  has_many :orders
+  has_many :images
+
   def images
     Image.where(product_id: id)
   end
@@ -33,4 +37,5 @@ class Product < ApplicationRecord
       images: images
     }
   end
+  belongs_to :supplier
 end

@@ -1,6 +1,26 @@
 require "unirest"
 
+# Login and set jwt as part of Unirest requests
+
+# puts "Enter User email: "
+# user_email = gets.chomp
+# puts "Enter a password: "
+# user_password = gets.chomp
+
+response = Unirest.post(
+  "http://localhost:3000/user_token",
+  parameters: {
+    auth: {
+      email: "greg@email.com",
+      password: "password"
+    }
+  }
+)
+jwt = response.body["jwt"]
+Unirest.default_header("Authorization", "Bearer #{jwt}")
+
 system "clear"
+puts "Your jwt is #{jwt}"
 puts "Welcome to Mini Capstone"
 puts "[1] See all products" 
 puts "  [1.1] Search products"
@@ -8,6 +28,8 @@ puts "[2] see one product"
 puts "[3] Create a product"
 puts "[4] Update a product"
 puts "[5] Delete a contact"
+puts "[6] Order a product"
+puts "[signup] Signup (create a user)"
 
 input_option = gets.chomp
 if input_option == "1"
@@ -88,4 +110,36 @@ elsif input_option == "5"
   response = Unirest.delete("http://localhost:3000/v1/products/#{product_id}")
   body = response.body
   puts JSON.pretty_generate(body)
+elsif input_option == "6"
+  params = {}
+
+  print "Order quantity: "
+  params["quantity"] = gets.chomp
+  print "Enter product id: "
+  params["product_id"] = gets.chomp
+
+  response = Unirest.post("http://localhost:3000/v1/orders/", parameters: params)
+  order = response.body
+  puts JSON.pretty_generate(order)
+
+
+  elsif input_option == "signup"
+    puts "Enter User Name: "
+    user_name = gets.chomp
+    puts "Enter User email: "
+    user_email = gets.chomp
+    puts "Enter a password: "
+    user_password = gets.chomp
+    puts "Enter your password again: "
+    user_password_confirmation = gets.chomp
+
+    params = {
+    name: user_name,
+    email: user_email,
+    password: user_password,
+    password_confirmation: user_password_confirmation
+    }
+    response = Unirest.post("http://localhost:3000/v1/users", parameters: params)
+    p response.body
+
 end
