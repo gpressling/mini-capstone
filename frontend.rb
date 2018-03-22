@@ -11,7 +11,7 @@ response = Unirest.post(
   "http://localhost:3000/user_token",
   parameters: {
     auth: {
-      email: "greg@email.com",
+      email: "peter@email.com",
       password: "password"
     }
   }
@@ -30,6 +30,7 @@ puts "[4] Update a product"
 puts "[5] Delete a contact"
 puts "[6] Order a product"
 puts "[signup] Signup (create a user)"
+puts "[7] see all orders"
 
 input_option = gets.chomp
 if input_option == "1"

@@ -1,4 +1,7 @@
 class V1::ProductsController < ApplicationController
+
+  before_action :authenticate_admin, except: [:index, :show]
+
   def update
     product_id = params["id"]
     product = Product.find_by(id: product_id)
@@ -17,7 +20,8 @@ class V1::ProductsController < ApplicationController
     name: params["name"],
     price: params["price"],
     image_url: params["image_url"],
-    description: params["description"]
+    description: params["description"],
+    supplier_id: 1
     )
     if product.save
       render json: product.as_json
@@ -49,5 +53,4 @@ class V1::ProductsController < ApplicationController
     product.destroy
     render json: {message: "Product successfully destroyed!"}
   end
-
 end

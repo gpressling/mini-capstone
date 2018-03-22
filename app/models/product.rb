@@ -7,6 +7,8 @@ class Product < ApplicationRecord
 
   has_many :orders
   has_many :images
+  has_many :category_products
+  has_many :categories, through: :category_products
 
   def images
     Image.where(product_id: id)
@@ -34,7 +36,8 @@ class Product < ApplicationRecord
       tax: tax,
       total: total,
       supplier: supplier.as_json,
-      images: images
+      images: images.map { |image| image.url },
+      categories: categories.map { |category| category.name }
     }
   end
   belongs_to :supplier
