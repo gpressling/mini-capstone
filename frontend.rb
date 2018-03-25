@@ -24,6 +24,7 @@ puts "Your jwt is #{jwt}"
 puts "Welcome to Mini Capstone"
 puts "[1] See all products" 
 puts "  [1.1] Search products"
+puts "    [1.2] Add product to cart"
 puts "[2] see one product"
 puts "[3] Create a product"
 puts "[4] Update a product"
@@ -31,6 +32,9 @@ puts "[5] Delete a contact"
 puts "[6] Order a product"
 puts "[signup] Signup (create a user)"
 puts "[7] see all orders"
+puts "[8] see shopping cart"
+puts "[9] order everything in shopping cart"
+puts "[10] remove product from cart"
 
 input_option = gets.chomp
 if input_option == "1"
@@ -44,6 +48,19 @@ elsif input_option == "1.1"
   response = Unirest.get("http://localhost:3000/v1/products?input_search_terms=#{data}")
   products = response.body
   puts JSON.pretty_generate(products)
+
+elsif input_option == "1.2"
+
+  params = {}
+
+  print "Add item to cart - Enter quantity: "
+  params["quantity"] = gets.chomp
+  print "Enter product id: "
+  params["product_id"] = gets.chomp
+
+  response = Unirest.post("http://localhost:3000/v1/carted_products/", parameters: params)
+  carted_product = response.body
+  puts JSON.pretty_generate(carted_product)
 
 elsif input_option == "2"
   print "Enter a product id: "
@@ -142,5 +159,21 @@ elsif input_option == "6"
     }
     response = Unirest.post("http://localhost:3000/v1/users", parameters: params)
     p response.body
-
+  elsif input_option == "7"
+    puts "here are all your orders"
+    response = Unirest.get("http://localhost:3000/v1/orders")
+  elsif input_option == "8"
+    response = Unirest.get("http://localhost:3000/v1/carted_products")
+    carted_products = response.body
+    puts JSON.pretty_generate(carted_products)
+  elsif input_option == "9"
+    response = Unirest.post("http://localhost:3000/v1/orders")
+    order = response.body
+    puts JSON.pretty_generate(order)
+  elsif input_option == "10"
+    print "Enter product id to remove"
+    input_carted_product_id = gets.chomp
+    response = Unirest.delete("http://localhost:3000/v1/carted_products/#{input_carted_product_id}")
+    message = response.body
+    puts JSON.pretty_generate(message)
 end

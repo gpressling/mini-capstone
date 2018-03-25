@@ -8,22 +8,12 @@ class V1::OrdersController < ApplicationController
   end
 
   def create
-    product = Product.find_by(id: params[:product_id].to_i)
-    calculated_subtotal = product.price * params[:quantity].to_i
-    calculated_tax = calculated_subtotal * 0.09
-    calculated_total = calculated_subtotal + calculated_tax
-  
-
-    order = Order.new(
-      user_id: current_user.id,
-      product_id: params[:product_id].to_i,
-      quantity: params[:quantity].to_i,
-      subtotal: calculated_subtotal,
-      tax: calculated_tax,
-      total: calculated_total
-    )
+    carted_products = current_user.carted_products.where(status: "carted")
+    order = Order.new(user_id: current_user.id)
     if order.save
-      render json: {message: 'Order created successfully'}, status: :created
+      carted_products.update_all(status: "purchased", order_id: order.id)
+      order.update_all_totals
+      render json: order.as_json
     else
       render json: {errors: order.errors.full_messages}, status: :bad_request
     end
