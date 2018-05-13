@@ -1,0 +1,9 @@
+body {
+  font-family: Tahoma, Verdana, Segoe, sans-serif;
+  background-image: url("bars.jpg");
+}
+
+.navbar-brand {
+  font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+  font-size: 3em;
+}
